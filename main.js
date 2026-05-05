@@ -1,35 +1,4 @@
-// ── 기본 위험 지역 (NASA FIRMS 데이터 없을 때 fallback) ──────────────
-const BASE_HOTSPOTS = [
-  { name: '광덕산 북사면',    lat: 37.2812, lng: 126.9658, risk: 0.95, source: '위험지수' },
-  { name: '칠보산 정상부',    lat: 37.2601, lng: 126.9742, risk: 0.91, source: '위험지수' },
-  { name: '백운산 남동사면',  lat: 37.3185, lng: 126.8372, risk: 0.88, source: '위험지수' },
-  { name: '용주사 인근 숲',   lat: 37.2142, lng: 126.9717, risk: 0.85, source: '위험지수' },
-  { name: '봉담 야산',        lat: 37.2034, lng: 126.9155, risk: 0.82, source: '위험지수' },
-  { name: '향남 산림지대',    lat: 37.1721, lng: 126.8834, risk: 0.80, source: '위험지수' },
-  { name: '발안천 상류 숲',   lat: 37.1954, lng: 126.8412, risk: 0.78, source: '위험지수' },
-  { name: '태안읍 북부 야산', lat: 37.1632, lng: 126.7978, risk: 0.76, source: '위험지수' },
-  { name: '매송면 산림',      lat: 37.2298, lng: 126.8765, risk: 0.74, source: '위험지수' },
-  { name: '팔탄 야산',        lat: 37.1508, lng: 126.9234, risk: 0.72, source: '위험지수' },
-  { name: '동탄 북부 녹지',   lat: 37.2087, lng: 127.0712, risk: 0.69, source: '위험지수' },
-  { name: '정남면 숲',        lat: 37.1893, lng: 126.9981, risk: 0.67, source: '위험지수' },
-  { name: '남양 야산',        lat: 37.1712, lng: 126.7234, risk: 0.65, source: '위험지수' },
-  { name: '비봉면 산림',      lat: 37.2341, lng: 126.7612, risk: 0.63, source: '위험지수' },
-  { name: '마도면 녹지',      lat: 37.1298, lng: 126.7534, risk: 0.61, source: '위험지수' },
-  { name: '서신면 산림',      lat: 37.1023, lng: 126.7001, risk: 0.58, source: '위험지수' },
-  { name: '장안면 야산',      lat: 37.1452, lng: 126.8023, risk: 0.56, source: '위험지수' },
-  { name: '우정읍 숲',        lat: 37.1178, lng: 126.8456, risk: 0.54, source: '위험지수' },
-  { name: '양감면 산림',      lat: 37.1634, lng: 127.0234, risk: 0.52, source: '위험지수' },
-  { name: '송산면 녹지',      lat: 37.1867, lng: 126.6934, risk: 0.50, source: '위험지수' },
-  { name: '화성호 인근 산림', lat: 37.1534, lng: 126.7789, risk: 0.48, source: '위험지수' },
-  { name: '제암산 기슭',      lat: 37.2756, lng: 126.8934, risk: 0.86, source: '위험지수' },
-  { name: '수리산 남사면',    lat: 37.3021, lng: 126.9123, risk: 0.83, source: '위험지수' },
-  { name: '봉화산 일대',      lat: 37.2423, lng: 127.0234, risk: 0.71, source: '위험지수' },
-  { name: '영통구 경계 숲',   lat: 37.2812, lng: 127.0456, risk: 0.44, source: '위험지수' },
-  { name: '오산 경계 산림',   lat: 37.1345, lng: 127.0612, risk: 0.42, source: '위험지수' },
-  { name: '평택 경계 야산',   lat: 37.1089, lng: 126.9234, risk: 0.40, source: '위험지수' },
-];
-
-// 화성시 경계 (대략적인 bbox)
+// 화성시 경계 bbox
 const HWASEONG_BOUNDS = { minLat: 37.05, maxLat: 37.35, minLng: 126.65, maxLng: 127.12 };
 
 function inHwaseong(lat, lng) {
@@ -37,8 +6,8 @@ function inHwaseong(lat, lng) {
       && lng >= HWASEONG_BOUNDS.minLng && lng <= HWASEONG_BOUNDS.maxLng;
 }
 
-// ── 전역 핫스팟 (BASE + FIRMS 합산) ──────────────────────────────────
-let HOTSPOTS = [...BASE_HOTSPOTS];
+// ── 전역 핫스팟 (NASA FIRMS 실데이터만) ──────────────────────────────
+let HOTSPOTS = [];
 
 // ── 지도 초기화 ──────────────────────────────────────────────────────
 const map = L.map('map', { zoomControl: true }).setView([37.1996, 126.8312], 11);
@@ -78,27 +47,24 @@ async function loadFirmsData() {
     const json = await res.json();
 
     if (json.fires && json.fires.length > 0) {
-      // 화성시 영역 내 화점만 필터
-      const firmsInHwaseong = json.fires.filter(f => inHwaseong(f.lat, f.lng));
-
-      // FIRMS 데이터와 BASE 합산 (중복 좌표 제거, FIRMS 우선)
-      HOTSPOTS = [...firmsInHwaseong, ...BASE_HOTSPOTS];
+      HOTSPOTS = json.fires.filter(f => inHwaseong(f.lat, f.lng));
 
       const updatedKST = json.updated
         ? new Date(json.updated).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
         : '-';
 
       dataStatus.innerHTML =
-        `🛰 NASA FIRMS 실시간 데이터 연동 중<br>`
-        + `<small>화성시 화점 ${firmsInHwaseong.length}건 | 갱신: ${updatedKST}</small>`;
+        `🛰 NASA FIRMS 실시간 데이터 | 화성시 화점 ${HOTSPOTS.length}건<br>`
+        + `<small>갱신: ${updatedKST}</small>`;
       dataStatus.className = 'data-status live';
     } else {
-      dataStatus.innerHTML =
-        '📊 현재 활성 화점 없음 — 기준 위험지수 표시 중';
+      HOTSPOTS = [];
+      dataStatus.innerHTML = '📡 현재 화성시 활성 화점 없음';
       dataStatus.className = 'data-status fallback';
     }
   } catch {
-    dataStatus.innerHTML = '⚠ 데이터 로드 실패 — 기준 위험지수 표시 중';
+    HOTSPOTS = [];
+    dataStatus.innerHTML = '⚠ 데이터 로드 실패';
     dataStatus.className = 'data-status fallback';
   }
 
