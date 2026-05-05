@@ -1,149 +1,281 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 100vh;
   font-family: 'Segoe UI', sans-serif;
-  color: #fff;
+  background: #0d1117;
+  color: #e6edf3;
 }
 
-.container {
-  text-align: center;
-  padding: 2rem;
-  max-width: 600px;
-  width: 100%;
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-}
-
-.subtitle {
-  color: #aaa;
-  margin-bottom: 2.5rem;
-  font-size: 0.95rem;
-}
-
-.balls-container {
+/* ── 사이드 패널 ── */
+.panel {
+  width: 300px;
+  min-width: 300px;
+  background: #161b22;
+  border-right: 1px solid #30363d;
   display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  z-index: 1000;
+  padding-bottom: 16px;
 }
 
-.ball {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
+.panel-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  font-weight: bold;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  transition: transform 0.3s ease;
+  gap: 12px;
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid #30363d;
+  background: #0d1117;
 }
 
-.ball.empty {
-  background: rgba(255,255,255,0.1);
-  border: 2px dashed rgba(255,255,255,0.2);
+.fire-icon { font-size: 2rem; }
+
+.panel-header h1 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f0883e;
 }
 
-.ball.yellow  { background: radial-gradient(circle at 35% 35%, #ffe066, #e6b800); color: #333; }
-.ball.blue    { background: radial-gradient(circle at 35% 35%, #5bc8f5, #0077cc); color: #fff; }
-.ball.red     { background: radial-gradient(circle at 35% 35%, #ff7070, #cc0000); color: #fff; }
-.ball.gray    { background: radial-gradient(circle at 35% 35%, #ccc, #888);       color: #fff; }
-.ball.green   { background: radial-gradient(circle at 35% 35%, #7be67b, #228b22); color: #fff; }
-
-.ball.pop {
-  animation: pop 0.4s ease;
+.panel-header p {
+  font-size: 0.72rem;
+  color: #8b949e;
+  margin-top: 2px;
 }
 
-@keyframes pop {
-  0%   { transform: scale(0); opacity: 0; }
-  70%  { transform: scale(1.2); }
-  100% { transform: scale(1); opacity: 1; }
+.section {
+  padding: 14px 16px;
+  border-bottom: 1px solid #21262d;
 }
 
-.draw-btn {
-  background: linear-gradient(135deg, #f7c948, #e09900);
-  color: #333;
-  border: none;
-  padding: 0.9rem 2.8rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-radius: 50px;
+.section-label {
+  display: block;
+  font-size: 0.78rem;
+  color: #8b949e;
+  margin-bottom: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.coord-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.coord-row input {
+  flex: 1;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #e6edf3;
+  padding: 7px 8px;
+  font-size: 0.78rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.coord-row input:focus { border-color: #f0883e; }
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #f0883e;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(247, 201, 72, 0.4);
-  transition: transform 0.15s, box-shadow 0.15s;
 }
 
-.draw-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(247, 201, 72, 0.6);
+.btn-secondary {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #8b949e;
+  padding: 7px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.draw-btn:active {
-  transform: translateY(0);
+.btn-secondary:hover, .btn-secondary.active {
+  border-color: #f0883e;
+  color: #f0883e;
 }
 
-.draw-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+.btn-primary {
+  margin: 14px 16px 6px;
+  background: linear-gradient(135deg, #f0883e, #d1623a);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 11px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
 }
 
-.history {
-  margin-top: 2.5rem;
-  text-align: left;
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-reset {
+  margin: 0 16px;
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  color: #8b949e;
+  padding: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.history h2 {
-  font-size: 1.1rem;
-  color: #aaa;
-  margin-bottom: 0.8rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  padding-bottom: 0.5rem;
+.btn-reset:hover { border-color: #58a6ff; color: #58a6ff; }
+
+/* ── 경로 요약 ── */
+.route-info {
+  margin: 14px 16px 0;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 12px;
 }
 
-#historyList {
-  list-style: none;
-  max-height: 220px;
+.info-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #f0883e;
+  margin-bottom: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  padding: 4px 0;
+  border-bottom: 1px solid #21262d;
+  color: #8b949e;
+}
+
+.info-row span:last-child { color: #e6edf3; font-weight: 600; }
+
+.waypoint-list {
+  margin-top: 10px;
+  max-height: 160px;
   overflow-y: auto;
 }
 
-#historyList li {
+.waypoint-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 0.9rem;
-  color: #ccc;
+  padding: 5px 0;
+  font-size: 0.76rem;
+  border-bottom: 1px solid #21262d;
+  color: #c9d1d9;
 }
 
-#historyList li .mini-ball {
-  width: 30px;
-  height: 30px;
+.waypoint-item:last-child { border-bottom: none; }
+
+.wp-num {
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
+  background: #f0883e;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
-  font-weight: bold;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
   flex-shrink: 0;
 }
 
-#historyList::-webkit-scrollbar { width: 4px; }
-#historyList::-webkit-scrollbar-track { background: transparent; }
-#historyList::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+.wp-risk {
+  margin-left: auto;
+  font-size: 0.72rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.risk-very-high { background: rgba(255,26,26,0.2); color: #ff6b6b; }
+.risk-high      { background: rgba(255,140,0,0.2);  color: #ffa500; }
+.risk-mid       { background: rgba(255,215,0,0.2);  color: #ffd700; }
+
+/* ── 범례 ── */
+.legend {
+  margin: 14px 16px 0;
+  padding: 12px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+}
+
+.legend-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8b949e;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #c9d1d9;
+  padding: 3px 0;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── 지도 ── */
+#map {
+  flex: 1;
+  height: 100vh;
+}
+
+/* 지도 팝업 커스텀 */
+.leaflet-popup-content-wrapper {
+  background: #161b22;
+  border: 1px solid #30363d;
+  color: #e6edf3;
+  border-radius: 8px;
+}
+
+.leaflet-popup-tip { background: #161b22; }
+
+.popup-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  color: #f0883e;
+}
+
+.popup-risk {
+  font-size: 0.82rem;
+  color: #8b949e;
+}
+
+/* 스크롤바 */
+.panel::-webkit-scrollbar,
+.waypoint-list::-webkit-scrollbar { width: 4px; }
+.panel::-webkit-scrollbar-track,
+.waypoint-list::-webkit-scrollbar-track { background: transparent; }
+.panel::-webkit-scrollbar-thumb,
+.waypoint-list::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
+
+/* 반응형 */
+@media (max-width: 600px) {
+  body { flex-direction: column; }
+  .panel { width: 100%; min-width: unset; height: auto; max-height: 45vh; }
+  #map { height: 55vh; }
+}

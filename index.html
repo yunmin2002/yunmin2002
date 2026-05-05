@@ -3,31 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>로또 번호 추첨기</title>
-  <link href='./style.css' rel='stylesheet'>
+  <title>화성시 산불 감시 순찰 시스템</title>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Leaflet Heatmap -->
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>🎱 로또 번호 추첨기</h1>
-    <p class="subtitle">1~45 중 6개의 번호를 무작위로 추첨합니다</p>
 
-    <div class="balls-container" id="ballsContainer">
-      <div class="ball empty"></div>
-      <div class="ball empty"></div>
-      <div class="ball empty"></div>
-      <div class="ball empty"></div>
-      <div class="ball empty"></div>
-      <div class="ball empty"></div>
+  <!-- 사이드 패널 -->
+  <div class="panel" id="panel">
+    <div class="panel-header">
+      <span class="fire-icon">🔥</span>
+      <div>
+        <h1>화성시 산불 감시</h1>
+        <p>최적 순찰 경로 추천 시스템</p>
+      </div>
     </div>
 
-    <button class="draw-btn" id="drawBtn">번호 추첨하기</button>
+    <div class="section">
+      <label class="section-label">출발 위치 설정</label>
+      <div class="coord-row">
+        <input type="number" id="startLat" placeholder="위도 (예: 37.1996)" step="0.0001" />
+        <input type="number" id="startLng" placeholder="경도 (예: 126.8312)" step="0.0001" />
+      </div>
+      <button class="btn-secondary" id="btnPickStart">🖱 지도에서 클릭으로 선택</button>
+    </div>
 
-    <div class="history" id="history">
-      <h2>추첨 기록</h2>
-      <ul id="historyList"></ul>
+    <div class="section">
+      <label class="section-label">위험도 기준 <span id="riskVal">0.6</span> 이상</label>
+      <input type="range" id="riskThreshold" min="0.3" max="0.95" step="0.05" value="0.6" />
+    </div>
+
+    <div class="section">
+      <label class="section-label">방문할 최대 지점 수: <span id="topNVal">10</span>개</label>
+      <input type="range" id="topN" min="3" max="20" step="1" value="10" />
+    </div>
+
+    <button class="btn-primary" id="btnRoute">🗺 최적 경로 계산</button>
+    <button class="btn-reset" id="btnReset">↺ 초기화</button>
+
+    <div class="route-info" id="routeInfo" style="display:none">
+      <div class="info-title">📋 경로 요약</div>
+      <div class="info-row"><span>총 거리</span><span id="totalDist">-</span></div>
+      <div class="info-row"><span>방문 지점</span><span id="waypointCount">-</span></div>
+      <div class="info-row"><span>평균 위험도</span><span id="avgRisk">-</span></div>
+      <div class="waypoint-list" id="waypointList"></div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-title">위험도 범례</div>
+      <div class="legend-row"><span class="dot" style="background:#ff1a1a"></span>매우 높음 (0.8↑)</div>
+      <div class="legend-row"><span class="dot" style="background:#ff8c00"></span>높음 (0.6~0.8)</div>
+      <div class="legend-row"><span class="dot" style="background:#ffd700"></span>보통 (0.4~0.6)</div>
+      <div class="legend-row"><span class="dot" style="background:#90ee90"></span>낮음 (0.4↓)</div>
     </div>
   </div>
 
-  <script type="text/javascript" src="./main.js"></script>
+  <!-- 지도 -->
+  <div id="map"></div>
+
+  <script src="./main.js"></script>
 </body>
 </html>
