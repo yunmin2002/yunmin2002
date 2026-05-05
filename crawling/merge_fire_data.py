@@ -5,6 +5,7 @@
 import json
 import datetime
 import os
+import random
 
 OUTPUT = 'data/korea_fires.json'
 
@@ -24,6 +25,15 @@ def main():
 
     forest_fires = forest.get('fires', [])
     firms_fires  = firms.get('fires', [])
+
+    # 중복 좌표 오프셋 처리 (같은 좌표에 겹치지 않도록)
+    seen = {}
+    for f in forest_fires:
+        key = (round(f['lat'], 4), round(f['lng'], 4))
+        if key in seen:
+            f['lat'] += random.uniform(-0.005, 0.005)
+            f['lng'] += random.uniform(-0.005, 0.005)
+        seen[key] = True
 
     # 산림청 이력 + NASA FIRMS 합산 (산림청 먼저 — 이력 데이터 우선)
     merged = forest_fires + firms_fires
