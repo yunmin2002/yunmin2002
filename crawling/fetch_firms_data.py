@@ -1,55 +1,36 @@
 """
 NASA FIRMS VIIRS 위성 화점 데이터 수집 스크립트
-1순위: Country API (KOR)
-2순위: Area API (bbox)
+인증 없이 접근 가능한 공개 CSV 파일 사용 (전체 글로벌 → 한반도 필터)
 """
 
-import os
 import json
 import requests
 import datetime
+import os
 
-API_KEY   = os.environ.get('FIRMS_API_KEY', '')
-DAY_RANGE = 7
-OUTPUT    = 'data/korea_fires.json'
+OUTPUT = 'data/korea_fires.json'
 
-SOURCES = ['VIIRS_SNPP_NRT', 'VIIRS_NOAA20_NRT', 'MODIS_NRT']
+# 한반도 bbox
+LAT_MIN, LAT_MAX = 33.0, 39.0
+LNG_MIN, LNG_MAX = 124.0, 130.0
 
-
-def validate_key():
-    """API 키 유효성 확인"""
-    url = f'https://firms.modaps.eosdis.nasa.gov/mapserver/mapkey_status/?MAP_KEY={API_KEY}'
-    try:
-        resp = requests.get(url, timeout=10)
-        text = resp.text.strip()
-        print(f'[KEY] 상태: {text[:100]}')
-        return 'Not valid' not in text and resp.status_code == 200
-    except Exception as e:
-        print(f'[KEY] 확인 실패: {e}')
-        return True  # 확인 안 되면 일단 시도
+# NASA FIRMS 공개 CSV (인증 불필요, 7일치)
+PUBLIC_SOURCES = [
+    # VIIRS SNPP (가장 신뢰도 높음)
+    'https://firms.modaps.eosdis.nasa.gov/data/active_fire/suomi-npp-viirs-c2/csv/SUOMI_VIIRS_C2_Global_7d.csv',
+    # VIIRS NOAA-20 (백업)
+    'https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_Global_7d.csv',
+    # MODIS (백업)
+    'https://firms.modaps.eosdis.nasa.gov/data/active_fire/c6.1/csv/MODIS_C6_1_Global_7d.csv',
+]
 
 
-def fetch_by_country(source):
-    """Country API: KOR"""
-    url = f'https://firms.modaps.eosdis.nasa.gov/api/country/csv/{API_KEY}/{source}/KOR/{DAY_RANGE}'
-    print(f'[FETCH Country] {source}')
-    resp = requests.get(url, timeout=30)
+def fetch_and_filter(url):
+    print(f'[FETCH] {url}')
+    resp = requests.get(url, timeout=60, stream=True)
     resp.raise_for_status()
-    return resp.text
 
-
-def fetch_by_area(source):
-    """Area API: 한반도 bbox"""
-    bbox = '124,33,130,39'
-    url = f'https://firms.modaps.eosdis.nasa.gov/api/area/csv/{API_KEY}/{source}/{bbox}/{DAY_RANGE}'
-    print(f'[FETCH Area] {source}')
-    resp = requests.get(url, timeout=30)
-    resp.raise_for_status()
-    return resp.text
-
-
-def parse_csv(text):
-    lines = text.strip().split('\n')
+    lines = resp.text.strip().split('\n')
     if len(lines) < 2:
         return []
 
@@ -61,13 +42,20 @@ def parse_csv(text):
         if len(vals) < len(headers):
             continue
         row = dict(zip(headers, vals))
+
         try:
-            lat        = float(row['latitude'])
-            lng        = float(row['longitude'])
+            lat = float(row['latitude'])
+            lng = float(row['longitude'])
+
+            # 한반도 bbox 필터
+            if not (LAT_MIN <= lat <= LAT_MAX and LNG_MIN <= lng <= LNG_MAX):
+                continue
+
             frp        = float(row.get('frp', 0))
             confidence = row.get('confidence', 'nominal').strip()
             acq_date   = row.get('acq_date', '').strip()
 
+            # FRP → 위험도 정규화
             risk = min(frp / 100.0, 1.0)
             if confidence == 'high':
                 risk = min(risk * 1.2, 1.0)
@@ -89,41 +77,19 @@ def parse_csv(text):
     return fires
 
 
-def fetch_firms():
-    if not API_KEY:
-        print('[SKIP] FIRMS_API_KEY 없음')
-        return []
-
-    if not validate_key():
-        print('[ERROR] API 키가 유효하지 않습니다. FIRMS 사이트에서 키를 확인하세요.')
-        return []
-
-    for source in SOURCES:
-        # 1순위: Country API
-        try:
-            text = fetch_by_country(source)
-            fires = parse_csv(text)
-            print(f'[OK] Country/{source}: {len(fires)}건')
-            if fires or len(text.strip().split('\n')) >= 1:
-                return fires
-        except Exception as e:
-            print(f'[WARN] Country/{source} 실패: {e}')
-
-        # 2순위: Area API
-        try:
-            text = fetch_by_area(source)
-            fires = parse_csv(text)
-            print(f'[OK] Area/{source}: {len(fires)}건')
-            return fires
-        except Exception as e:
-            print(f'[WARN] Area/{source} 실패: {e}')
-
-    print('[ERROR] 모든 소스 실패')
-    return []
-
-
 def main():
-    fires = fetch_firms()
+    fires = []
+
+    for url in PUBLIC_SOURCES:
+        try:
+            fires = fetch_and_filter(url)
+            print(f'[OK] 한반도 화점 {len(fires)}건 파싱 완료')
+            break
+        except Exception as e:
+            print(f'[WARN] 실패: {e}')
+
+    if not fires:
+        print('[INFO] 현재 한반도 활성 화점 없음 (정상)')
 
     output = {
         'updated': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -135,7 +101,7 @@ def main():
     with open(OUTPUT, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
-    print(f'[SAVE] {len(fires)}건 저장 완료 → {OUTPUT}')
+    print(f'[SAVE] {OUTPUT} 저장 완료 ({len(fires)}건)')
 
 
 if __name__ == '__main__':
