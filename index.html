@@ -1,14 +1,33 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
+  <title>로또 번호 추첨기</title>
   <link href='/style.css' rel='stylesheet'>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
+  <div class="container">
+    <h1>🎱 로또 번호 추첨기</h1>
+    <p class="subtitle">1~45 중 6개의 번호를 무작위로 추첨합니다</p>
+
+    <div class="balls-container" id="ballsContainer">
+      <div class="ball empty"></div>
+      <div class="ball empty"></div>
+      <div class="ball empty"></div>
+      <div class="ball empty"></div>
+      <div class="ball empty"></div>
+      <div class="ball empty"></div>
+    </div>
+
+    <button class="draw-btn" id="drawBtn" onclick="drawLotto()">번호 추첨하기</button>
+
+    <div class="history" id="history">
+      <h2>추첨 기록</h2>
+      <ul id="historyList"></ul>
+    </div>
+  </div>
+
   <script defer type="text/javascript" src="/main.js"></script>
 </body>
 </html>
