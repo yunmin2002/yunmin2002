@@ -1,3 +1,5 @@
+document.getElementById('drawBtn').addEventListener('click', drawLotto);
+
 function getBallClass(num) {
   if (num <= 10) return 'yellow';
   if (num <= 20) return 'blue';
