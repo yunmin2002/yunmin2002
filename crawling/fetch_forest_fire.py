@@ -10,7 +10,7 @@ import datetime
 import xml.etree.ElementTree as ET
 
 API_KEY   = os.environ.get('FOREST_FIRE_API_KEY', '')
-OUTPUT    = 'data/korea_fires.json'
+OUTPUT    = 'data/forest_fires.json'
 THIS_YEAR = datetime.datetime.now().year
 
 # 화성시 bbox

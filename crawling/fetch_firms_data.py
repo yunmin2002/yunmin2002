@@ -8,7 +8,7 @@ import requests
 import datetime
 import os
 
-OUTPUT = 'data/korea_fires.json'
+OUTPUT = 'data/firms_fires.json'
 
 # 한반도 bbox
 LAT_MIN, LAT_MAX = 33.0, 39.0
