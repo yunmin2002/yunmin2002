@@ -17,12 +17,8 @@ THIS_YEAR = datetime.datetime.now().year
 LAT_MIN, LAT_MAX = 37.05, 37.35
 LNG_MIN, LNG_MAX = 126.65, 127.12
 
-# 시도할 엔드포인트 목록
 ENDPOINTS = [
-    'https://apis.data.go.kr/1400119/forestFireInfoService2/getForestFireInfo',
-    'https://apis.data.go.kr/1400119/forestFireInfoService/getForestFireInfo',
-    'https://apis.data.go.kr/B551014/forestFireService/getFireOccurrenceList',
-    'https://apis.data.go.kr/1400119/forestFireStatsService/getForestFireStats',
+    'https://apis.data.go.kr/1400000/forestStusService/getfirestatsservice',
 ]
 
 
