@@ -50,6 +50,10 @@ def parse_response(xml_text):
         items = root.findall('.//item')
         print(f'[PARSE] {len(items)}건 파싱 중')
 
+        # 첫 번째 item의 모든 필드명 출력
+        if items:
+            print('[FIELDS]', [child.tag for child in items[0]])
+
         for item in items:
             try:
                 # 좌표 필드 (API마다 필드명 다를 수 있음)
