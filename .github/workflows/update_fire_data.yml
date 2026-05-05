@@ -25,7 +25,12 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Fetch NASA FIRMS data
+      - name: Fetch 산림청 산불발생통계
+        env:
+          FOREST_FIRE_API_KEY: ${{ secrets.FOREST_FIRE_API_KEY }}
+        run: python crawling/fetch_forest_fire.py
+
+      - name: Fetch NASA FIRMS data (보조)
         run: python crawling/fetch_firms_data.py
 
       - name: Commit and push updated data
