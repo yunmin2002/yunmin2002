@@ -17,19 +17,26 @@ THIS_YEAR = datetime.datetime.now().year
 LAT_MIN, LAT_MAX = 37.05, 37.35
 LNG_MIN, LNG_MAX = 126.65, 127.12
 
-BASE_URL = 'https://apis.data.go.kr/1400119/forestFireInfoService2/getForestFireInfo'
+# 시도할 엔드포인트 목록
+ENDPOINTS = [
+    'https://apis.data.go.kr/1400119/forestFireInfoService2/getForestFireInfo',
+    'https://apis.data.go.kr/1400119/forestFireInfoService/getForestFireInfo',
+    'https://apis.data.go.kr/B551014/forestFireService/getFireOccurrenceList',
+    'https://apis.data.go.kr/1400119/forestFireStatsService/getForestFireStats',
+]
 
 
-def fetch_fire_data(year):
+def fetch_fire_data(year, base_url):
     params = {
         'serviceKey': API_KEY,
         'pageNo':     1,
         'numOfRows':  1000,
         'year':       year,
     }
-    print(f'[FETCH] {year}년 산불 데이터 요청')
-    resp = requests.get(BASE_URL, params=params, timeout=30)
+    print(f'[FETCH] {year}년 → {base_url}')
+    resp = requests.get(base_url, params=params, timeout=30)
     resp.raise_for_status()
+    print(f'[DEBUG] 응답 앞부분: {resp.text[:200]}')
     return resp.text
 
 
@@ -106,10 +113,28 @@ def main():
 
     all_fires = []
 
-    # 최근 5년치 수집
-    for year in range(THIS_YEAR - 4, THIS_YEAR + 1):
+    # 작동하는 엔드포인트 탐색
+    working_url = None
+    for url in ENDPOINTS:
         try:
-            xml_text = fetch_fire_data(year)
+            xml_text = fetch_fire_data(THIS_YEAR, url)
+            fires = parse_response(xml_text)
+            if fires or '<item>' in xml_text or '"item"' in xml_text:
+                working_url = url
+                all_fires.extend(fires)
+                print(f'[OK] 엔드포인트 확인: {url}')
+                break
+        except Exception as e:
+            print(f'[WARN] {url} 실패: {e}')
+
+    if not working_url:
+        print('[ERROR] 작동하는 엔드포인트 없음')
+        return
+
+    # 나머지 연도 수집
+    for year in range(THIS_YEAR - 4, THIS_YEAR):
+        try:
+            xml_text = fetch_fire_data(year, working_url)
             fires    = parse_response(xml_text)
             all_fires.extend(fires)
             print(f'[OK] {year}년: {len(fires)}건')
