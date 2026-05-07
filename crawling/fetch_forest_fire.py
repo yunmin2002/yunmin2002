@@ -70,6 +70,21 @@ def fetch_year(year):
     return resp.text
 
 
+def normalize_address(locsi, locgungu, locdong, locbunji):
+    """API 필드값을 Nominatim이 인식할 수 있는 주소로 변환"""
+    if locsi == '경기':
+        locsi = '경기도'
+
+    if locgungu and not locgungu.endswith(('시', '군', '구')):
+        locgungu = locgungu + '시'
+
+    if locdong and not locdong.endswith(('동', '읍', '면', '리')):
+        locdong = locdong + '동'
+
+    parts = [p for p in [locsi, locgungu, locdong, locbunji] if p]
+    return ' '.join(parts)
+
+
 def parse_hwaseong(xml_text):
     """화성시 데이터만 필터링"""
     fires = []
@@ -96,7 +111,7 @@ def parse_hwaseong(xml_text):
             date = f'{syear}-{smonth.zfill(2)}-{sday.zfill(2)}' if syear else ''
 
             fires.append({
-                'address': f'{locsi} {locgungu} {locdong} {locbunji}'.strip(),
+                'address': normalize_address(locsi, locgungu, locdong, locbunji),
                 'name':    f'화성시 {locdong} 산불 이력',
                 'dmge':    float(dmge) if dmge else 0,
                 'cause':   cause,
