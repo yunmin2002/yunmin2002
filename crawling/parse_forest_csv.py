@@ -31,7 +31,8 @@ def save_cache(cache):
         json.dump(cache, f, ensure_ascii=False, indent=2)
 
 
-def geocode(address, cache):
+def geocode_single(address, cache):
+    """단일 주소 시도"""
     if address in cache:
         return cache[address]
 
@@ -40,20 +41,57 @@ def geocode(address, cache):
             'https://nominatim.openstreetmap.org/search',
             params={'q': address, 'format': 'json', 'limit': 1, 'countrycodes': 'kr'},
             headers={'User-Agent': 'HwaseongFirePatrol/1.0'},
-            timeout=10
+            timeout=15
         )
-        results = resp.json()
+        time.sleep(1.2)  # rate limit 여유
+
+        if resp.status_code != 200:
+            return None
+
+        results = resp.json() if resp.text.strip() else []
         if results:
             lat = float(results[0]['lat'])
             lng = float(results[0]['lon'])
             cache[address] = [lat, lng]
-            time.sleep(1.1)
             return lat, lng
     except Exception as e:
-        print(f'[GEOCODE ERROR] {address}: {e}')
+        print(f'    [ERROR] {address}: {e}')
 
     cache[address] = None
     return None
+
+
+def geocode_with_fallback(row, cache):
+    """리 → 면 → 시 단계별 폴백"""
+    sido = (row.get('발생장소_시도') or '').strip()
+    sgg  = (row.get('발생장소_시군구') or '').strip()
+    emd  = (row.get('발생장소_읍면') or '').strip()
+    dr   = (row.get('발생장소_동리') or '').strip()
+
+    if sido == '경기':
+        sido = '경기도'
+    if sgg and not sgg.endswith(('시', '군', '구')):
+        sgg = sgg + '시'
+    if emd and not emd.endswith(('읍', '면', '동')):
+        emd = emd + '면'
+    if dr and not dr.endswith(('리', '동')):
+        dr = dr + '리'
+
+    # 시도 순서: 정밀 → 대략
+    candidates = [
+        ' '.join([p for p in [sido, sgg, emd, dr] if p]),  # 1순위: 리까지
+        ' '.join([p for p in [sido, sgg, emd] if p]),      # 2순위: 면까지
+        ' '.join([p for p in [sido, sgg] if p]),           # 3순위: 시까지
+    ]
+
+    for level, addr in enumerate(candidates, 1):
+        if not addr:
+            continue
+        coords = geocode_single(addr, cache)
+        if coords:
+            return coords, addr, level
+
+    return None, candidates[0], 0
 
 
 def build_address(row):
@@ -108,6 +146,7 @@ def parse_csv():
                 'cause_detail': cause_detail,
                 'date':         date,
                 'time':         time_,
+                'row':          row,
             })
 
     return fires
@@ -135,27 +174,39 @@ def main():
     cache = load_cache()
 
     result = []
-    success = 0
+    success_l1 = 0  # 리까지 성공
+    success_l2 = 0  # 면까지 성공
+    success_l3 = 0  # 시까지 성공
+    failed = 0
+
     for i, f in enumerate(fires_raw, 1):
-        coords = geocode(f['address'], cache)
+        coords, used_addr, level = geocode_with_fallback(f['row'], cache)
+
         if not coords:
-            print(f'  [{i}/{len(fires_raw)}] [SKIP] {f["address"]}')
+            failed += 1
+            print(f'  [{i}/{len(fires_raw)}] [FAIL] {used_addr}')
             continue
 
         lat, lng = coords
+        if level == 1: success_l1 += 1
+        elif level == 2: success_l2 += 1
+        elif level == 3: success_l3 += 1
+
+        label = ['', '리', '면', '시'][level]
+        print(f'  [{i}/{len(fires_raw)}] [OK-{label}] {used_addr}')
+
         result.append({
-            'lat':          lat,
-            'lng':          lng,
-            'dmge':         f['dmge'],
-            'date':         f['date'],
-            'time':         f['time'],
-            'name':         f['name'],
-            'cause':        f['cause'],
-            'cause_detail': f['cause_detail'],
-            'source':       '산림청 산불통계데이터(CSV)',
+            'lat':           lat,
+            'lng':           lng,
+            'precision':     label,
+            'dmge':          f['dmge'],
+            'date':          f['date'],
+            'time':          f['time'],
+            'name':          f['name'],
+            'cause':         f['cause'],
+            'cause_detail':  f['cause_detail'],
+            'source':        '산림청 산불통계데이터(CSV)',
         })
-        success += 1
-        print(f'  [{i}/{len(fires_raw)}] [OK]   {f["address"]}')
 
     save_cache(cache)
 
@@ -169,7 +220,13 @@ def main():
     with open(OUTPUT, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
-    print(f'\n[RESULT] 성공: {success}/{len(fires_raw)} ({success/len(fires_raw)*100:.1f}%)')
+    total_success = success_l1 + success_l2 + success_l3
+    print(f'\n[RESULT]')
+    print(f'  리 단위 성공: {success_l1}건')
+    print(f'  면 단위 성공: {success_l2}건')
+    print(f'  시 단위 성공: {success_l3}건')
+    print(f'  실패:         {failed}건')
+    print(f'  총 성공률:    {total_success}/{len(fires_raw)} ({total_success/len(fires_raw)*100:.1f}%)')
     print(f'[SAVE] {OUTPUT}')
 
 
