@@ -40,6 +40,29 @@ const dataStatus   = document.getElementById('dataStatus');
 riskSlider.addEventListener('input', () => { riskVal.textContent = riskSlider.value; });
 topNSlider.addEventListener('input', () => { topNVal.textContent = topNSlider.value; });
 
+// ── 격자 레이어 ───────────────────────────────────────────────────────
+let gridLayer = null;
+
+async function loadGrid() {
+  try {
+    const res = await fetch('./data/hwaseong_grid.geojson');
+    const geo = await res.json();
+
+    gridLayer = L.geoJSON(geo, {
+      style: {
+        color:       '#58a6ff',
+        weight:      0.5,
+        opacity:     0.4,
+        fillOpacity: 0,
+      },
+    }).addTo(map);
+
+    console.log(`[GRID] ${geo.meta.total_cells}개 격자 로드 완료`);
+  } catch (e) {
+    console.error('[GRID] 로드 실패:', e);
+  }
+}
+
 // ── NASA FIRMS 데이터 로드 ────────────────────────────────────────────
 async function loadFirmsData() {
   try {
@@ -269,4 +292,5 @@ btnReset.addEventListener('click', () => {
 });
 
 // ── 초기 로드 ────────────────────────────────────────────────────────
+loadGrid();          // ← 이 줄 추가
 loadFirmsData();
