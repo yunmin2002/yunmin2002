@@ -1,27 +1,7 @@
 {
-  "updated": "2026-07-10T16:56:06Z",
-  "count": 47,
+  "updated": "2026-07-11T15:56:32Z",
+  "count": 45,
   "fires": [
-    {
-      "lat": 37.48559,
-      "lng": 129.05591,
-      "frp": 2.44,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-07-03",
-      "name": "위성감지 화점 (2026-07-03)",
-      "source": "NASA FIRMS"
-    },
-    {
-      "lat": 37.42379,
-      "lng": 129.17232,
-      "frp": 3.44,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-07-03",
-      "name": "위성감지 화점 (2026-07-03)",
-      "source": "NASA FIRMS"
-    },
     {
       "lat": 34.9125,
       "lng": 127.75672,
