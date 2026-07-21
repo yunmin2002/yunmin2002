@@ -1,6 +1,6 @@
 {
-  "updated": "2026-07-20T16:23:41Z",
-  "count": 18,
+  "updated": "2026-07-21T16:22:42Z",
+  "count": 48,
   "fires": [
     {
       "lat": 36.98769,
@@ -180,6 +180,306 @@
       "confidence": "low",
       "date": "2026-07-20",
       "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 37.4869,
+      "lng": 129.05583,
+      "frp": 1.81,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 37.48322,
+      "lng": 129.05075,
+      "frp": 2.19,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 37.425,
+      "lng": 129.17209,
+      "frp": 2.0,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 37.42454,
+      "lng": 129.17665,
+      "frp": 1.17,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 37.59829,
+      "lng": 129.0125,
+      "frp": 0.68,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.03088,
+      "lng": 129.39252,
+      "frp": 1.17,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.0302,
+      "lng": 129.39885,
+      "frp": 1.17,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00834,
+      "lng": 129.37592,
+      "frp": 3.63,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00436,
+      "lng": 129.37526,
+      "frp": 3.37,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00302,
+      "lng": 129.38794,
+      "frp": 3.5,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00323,
+      "lng": 129.37408,
+      "frp": 2.0,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00253,
+      "lng": 129.38043,
+      "frp": 2.06,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00111,
+      "lng": 129.39305,
+      "frp": 1.52,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00041,
+      "lng": 129.39935,
+      "frp": 1.52,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 35.36982,
+      "lng": 128.4888,
+      "frp": 1.62,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 35.10115,
+      "lng": 128.8622,
+      "frp": 1.69,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 35.0836,
+      "lng": 128.99019,
+      "frp": 3.75,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 35.10028,
+      "lng": 128.83109,
+      "frp": 1.56,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 35.09713,
+      "lng": 128.8613,
+      "frp": 2.25,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 34.92737,
+      "lng": 127.7524,
+      "frp": 4.81,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 34.92785,
+      "lng": 127.7475,
+      "frp": 3.0,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 34.92355,
+      "lng": 127.74689,
+      "frp": 2.31,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 34.92307,
+      "lng": 127.75179,
+      "frp": 3.63,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 34.92163,
+      "lng": 127.76649,
+      "frp": 3.15,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 34.91972,
+      "lng": 127.74133,
+      "frp": 2.31,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 34.91924,
+      "lng": 127.74625,
+      "frp": 2.31,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 34.85197,
+      "lng": 127.70548,
+      "frp": 2.67,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-20",
+      "name": "위성감지 화점 (2026-07-20)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 33.05028,
+      "lng": 129.62785,
+      "frp": 5.51,
+      "risk": 0.1,
+      "confidence": "low",
+      "date": "2026-07-21",
+      "name": "위성감지 화점 (2026-07-21)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00217,
+      "lng": 129.39064,
+      "frp": 8.7,
+      "risk": 0.1,
+      "confidence": "low",
+      "date": "2026-07-21",
+      "name": "위성감지 화점 (2026-07-21)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 37.42318,
+      "lng": 129.17357,
+      "frp": 4.2,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-07-21",
+      "name": "위성감지 화점 (2026-07-21)",
       "source": "NASA FIRMS"
     }
   ]
