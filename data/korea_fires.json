@@ -1,77 +1,7 @@
 {
-  "updated": "2026-10-25T18:10:41Z",
-  "count": 106,
+  "updated": "2026-10-26T20:21:28Z",
+  "count": 108,
   "fires": [
-    {
-      "lat": 37.49002,
-      "lng": 126.64328,
-      "frp": 0.88,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-10-18",
-      "name": "위성감지 화점 (2026-10-18)",
-      "source": "NASA FIRMS"
-    },
-    {
-      "lat": 36.98391,
-      "lng": 126.69283,
-      "frp": 0.76,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-10-18",
-      "name": "위성감지 화점 (2026-10-18)",
-      "source": "NASA FIRMS"
-    },
-    {
-      "lat": 36.98188,
-      "lng": 126.71229,
-      "frp": 1.22,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-10-18",
-      "name": "위성감지 화점 (2026-10-18)",
-      "source": "NASA FIRMS"
-    },
-    {
-      "lat": 36.9799,
-      "lng": 126.69215,
-      "frp": 0.76,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-10-18",
-      "name": "위성감지 화점 (2026-10-18)",
-      "source": "NASA FIRMS"
-    },
-    {
-      "lat": 36.98371,
-      "lng": 126.68602,
-      "frp": 1.69,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-10-18",
-      "name": "위성감지 화점 (2026-10-18)",
-      "source": "NASA FIRMS"
-    },
-    {
-      "lat": 36.98299,
-      "lng": 126.69251,
-      "frp": 1.69,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-10-18",
-      "name": "위성감지 화점 (2026-10-18)",
-      "source": "NASA FIRMS"
-    },
-    {
-      "lat": 36.95427,
-      "lng": 126.61825,
-      "frp": 0.48,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-10-18",
-      "name": "위성감지 화점 (2026-10-18)",
-      "source": "NASA FIRMS"
-    },
     {
       "lat": 36.43959,
       "lng": 126.42546,
@@ -1060,6 +990,96 @@
       "confidence": "nominal",
       "date": "2026-10-25",
       "name": "위성감지 화점 (2026-10-25)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00988,
+      "lng": 129.38687,
+      "frp": 1.81,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-10-26",
+      "name": "위성감지 화점 (2026-10-26)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00299,
+      "lng": 129.38663,
+      "frp": 1.33,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-10-26",
+      "name": "위성감지 화점 (2026-10-26)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00282,
+      "lng": 129.39427,
+      "frp": 1.33,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-10-26",
+      "name": "위성감지 화점 (2026-10-26)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00982,
+      "lng": 129.38455,
+      "frp": 3.61,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-10-26",
+      "name": "위성감지 화점 (2026-10-26)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 36.00272,
+      "lng": 129.392,
+      "frp": 2.62,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-10-26",
+      "name": "위성감지 화점 (2026-10-26)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 35.44703,
+      "lng": 129.33624,
+      "frp": 2.2,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-10-26",
+      "name": "위성감지 화점 (2026-10-26)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 35.08406,
+      "lng": 128.98972,
+      "frp": 1.32,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-10-26",
+      "name": "위성감지 화점 (2026-10-26)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 35.08617,
+      "lng": 128.98552,
+      "frp": 0.85,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-10-26",
+      "name": "위성감지 화점 (2026-10-26)",
+      "source": "NASA FIRMS"
+    },
+    {
+      "lat": 37.42324,
+      "lng": 129.17422,
+      "frp": 1.05,
+      "risk": 0.1,
+      "confidence": "nominal",
+      "date": "2026-10-26",
+      "name": "위성감지 화점 (2026-10-26)",
       "source": "NASA FIRMS"
     }
   ]
