@@ -1,16 +1,5 @@
 {
-  "updated": "2026-11-09T23:41:53Z",
-  "count": 1,
-  "fires": [
-    {
-      "lat": 36.9837,
-      "lng": 126.71311,
-      "frp": 3.03,
-      "risk": 0.1,
-      "confidence": "nominal",
-      "date": "2026-11-02",
-      "name": "위성감지 화점 (2026-11-02)",
-      "source": "NASA FIRMS"
-    }
-  ]
+  "updated": "2026-11-10T21:12:34Z",
+  "count": 0,
+  "fires": []
 }
